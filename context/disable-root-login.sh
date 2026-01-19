@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-if [ "$DISABLE_PASSWORD_AUTH" = "true" ]; then
+if [ "$DISABLE_ROOT_LOGIN" = "true" ]; then
     echo "Waiting for sshd to come up..."
 
     # Wait until sshd is listening on port 22
@@ -9,15 +9,16 @@ if [ "$DISABLE_PASSWORD_AUTH" = "true" ]; then
         sleep 1
     done
 
-    echo "Disabling password authentication..."
+    echo "Disabling root login..."
 
-    # Disable password authentication in sshd
+    # Disable root password login in sshd
     sed -i 's/^PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
+    sed -i 's/^PermitRootLogin yes/PermitRootLogin prohibit-password/' /etc/ssh/sshd_config
 
     # Restart sshd
     service ssh restart
 
-    echo "Disable password authentication successfully."
+    echo "Disabled root login successfully."
 else
-    echo "DISABLE_PASSWORD_AUTH not set or false, skipping..."
+    echo "DISABLE_ROOT_LOGIN not set or false, skipping..."
 fi

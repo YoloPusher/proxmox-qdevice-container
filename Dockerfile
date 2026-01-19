@@ -12,13 +12,13 @@ RUN apt update \
 COPY context/supervisord.conf /etc/supervisord.conf
 COPY context/init-qnetd-nssdb.sh /usr/local/bin/init-qnetd-nssdb.sh
 COPY context/update-root-password.sh /usr/local/bin/update-root-password.sh
-COPY context/disable-password-authentication.sh /usr/local/bin/disable-password-authentication.sh
+COPY context/disable-root-login.sh /usr/local/bin/disable-root-login.sh
 
 # Make helper scripts executable
 RUN chmod +x /usr/local/bin/update-root-password.sh
 RUN chmod +x /usr/local/bin/init-qnetd-nssdb.sh
 
-# Enable root password login
+# Enable root password login in sshd
 RUN sed -i 's/^#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN sed -i 's/^#PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
 
