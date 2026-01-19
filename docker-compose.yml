@@ -1,0 +1,30 @@
+services:
+  qdevice:
+    image: proxmox-qdevice:0.1
+    container_name: qdevice
+    environment:
+      - ROOT_PASSWORD_HASH=${ROOT_PASSWORD_HASH}
+      # - DISABLE_ROOT_LOGIN=true  # only uncomment after joining the cluster
+    volumes:
+      - corosync_data:/etc/corosync
+    ports:
+      - "22:22/tcp"
+      - "5403:5403/tcp"
+    restart: unless-stopped
+    networks:
+      net:
+        ipv4_address: "<ip of container>"
+
+volumes:
+  corosync_data:
+
+networks:
+  net:
+    driver: "macvlan"
+    driver_opts:
+      parent: "<parent interface>"
+    ipam:
+      driver: default
+      config:
+        - subnet: "<subnet in CIDR notation>"
+          ip_range: "<subnet in CIDR notation>"
