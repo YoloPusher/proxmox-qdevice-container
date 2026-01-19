@@ -4,17 +4,18 @@ FROM debian:13-slim
 # Install required packages
 RUN apt update \
     && apt -y upgrade \
-    && apt install --no-install-recommends -y supervisor openssh-server corosync-qnetd \
+    && apt install --no-install-recommends -y iproute2 supervisor openssh-server corosync-qnetd \
     && apt -y autoremove \
     && apt clean all
 
 # Copy build context
 COPY context/supervisord.conf /etc/supervisord.conf
 COPY context/init-qnetd-nssdb.sh /usr/local/bin/init-qnetd-nssdb.sh
-COPY context/set_root_password.sh /usr/local/bin/set_root_password.sh
+COPY context/update-root-password.sh /usr/local/bin/update-root-password.sh
+COPY context/disable-password-authentication.sh /usr/local/bin/disable-password-authentication.sh
 
 # Make helper scripts executable
-RUN chmod +x /usr/local/bin/set_root_password.sh
+RUN chmod +x /usr/local/bin/update-root-password.sh
 RUN chmod +x /usr/local/bin/init-qnetd-nssdb.sh
 
 # Enable root password login

@@ -6,6 +6,7 @@ services:
       - ROOT_PASSWORD_HASH=${ROOT_PASSWORD_HASH}
     volumes:
       - corosync_data:/etc/corosync
+      # - DISABLE_PASSWORD_AUTH=true  # only uncomment after joining the cluster
     ports:
       - "22:22/tcp"
       - "5403:5403/tcp"

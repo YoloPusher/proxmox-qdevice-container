@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
 NSSDB_DIR="/etc/corosync/qnetd/nssdb"
