@@ -15,8 +15,9 @@ COPY context/update-root-password.sh /usr/local/bin/update-root-password.sh
 COPY context/disable-root-login.sh /usr/local/bin/disable-root-login.sh
 
 # Make helper scripts executable
-RUN chmod +x /usr/local/bin/update-root-password.sh
 RUN chmod +x /usr/local/bin/init-qnetd-nssdb.sh
+RUN chmod +x /usr/local/bin/update-root-password.sh
+RUN chmod +x /usr/local/bin/disable-root-login.sh
 
 # Enable root password login in sshd
 RUN sed -i 's/^#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
